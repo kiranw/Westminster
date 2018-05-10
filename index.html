@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Westminster</title>
+
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+
+	</head>
+	<body>
+
+	<div id="header" class="row">
+		<div class="col-md-10">
+			<h1 class="headline-style">Westminster, The Distributed Consensus System</h1>
+			<br>
+			<h4>Mali Akmanalp, mali@akmanalp.com</h4>
+			<h4>Kiran Wattamwar, kwattamwar@mde.harvard.edu</h4>
+			<h4>CS 262, Spring 2018</h4>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+
+    <hr>
+
+	<div id="about" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">Abstract: About Westminster</div>
+				<p>We were struck by Lamport's Paxos and Byzantine Generals Problem papers. In both of these, Lamport relates
+					a system design to a human analogy to explain how such a system would look in a mechanism that is relatable.
+					However, what if the inverse approach was applied to designing a system? In this project, we attempt to extract
+					parts of the Westminster System to create a distributed, hierarchical conensus and leader election algorithm.
+				</p>
+				<p>Whether human analogies incept the ideas, or the ideas beget analogies we were interested to see what
+					could be gained from applying human systems to distributed systems. It is clear that there are
+					striking parallels between the design of distributed systems and the construction of government
+					systems. Consensus and leader election are long standing requirements of many governments today.
+				</p>
+				<p>We start with the Westminster System since it has several requirements that are clearly structured, and
+					the system operates almost like an interface that has been extended and customized by several other
+					governments for various purposes (a lot of the Eastern Bloc, India, Australia, Canada, Japan).
+				</p>
+		</div>
+	</div>
+
+	<hr>
+
+	<div id="primer" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">Introduction: What is the Westminster System?</div>
+			<br>
+			<strong class="sub-heading">House of Commons</strong><br>
+			<ul>
+				<li>Represent different constituencies across the country</li>
+				<li>One representative maps to one constituency</li>
+				<li>Constituencies are decided by Boundary Commissions</li>
+				<li>In the UK, this is the lower house with 650 seats</li>
+				<li>Can reject a motion of confidence to force resignation by the Prime Minister</li>
+				<li>A Speaker and Opposition Leader are selected</li>
+				<li>No term limit</li>
+				<li>Elected every 5 years or when Parliament dissolves</li>
+			</ul>
+
+			<br>
+			<strong class="sub-heading">House of Lords</strong><br>
+			<ul>
+				<li>Members are considered to be domain experts</li>
+				<li>Most members are appointed, some are elected</li>
+				<li>Total number of members is not fixed (currently 781)</li>
+				<li>Members usually come from the House of Commons</li>
+				<li>Scrutinize bills passed by the House of Commons</li>
+				<li>Cannot prevent bills from being passed into law, but can force the Commons to reconsider votes and delay a process</li>
+				<li>Terms are 15 years</li>
+				<li>Members are capped at 1 term</li>
+			</ul>
+
+			<br>
+			<strong class="sub-heading">Monarch</strong><br>
+			<ul>
+				<li>Makes appointments based on the advice of the House and Prime Minister</li>
+				<li>Terms are lifelong and hereditary</li>
+				<li>There is no election</li>
+			</ul>
+
+			<br>
+			<strong class="sub-heading">Prime Minister</strong><br>
+			<ul>
+				<li>Selects a cabinet of advisors</li>
+				<li>Appointed by the Monarch as a person with the confidence of the House of Commons</li>
+				<li>"Primus inter pares": First among equals</li>
+				<li>Can be forced to resign if they lose a vote of confidence</li>
+				<li>Terms are "at her majesty's pleasure"</li>
+			</ul>
+
+			<br>
+
+			<p>This is an extremely reductive representation of only parts of the Parliament system. There is also a judiciary system which
+				we will not be exploring in this project, because revision and review of a corpus of data that has already been agreed upon
+				occurs in the Parliament in our model system.</p>
+
+			<p>It is worth highlighting a few key characteristics we want to embrace, and others we will not be including in the project.
+				The House of Commons serves a shorter cycle than the House of Lords, which allows for staggered voting and different leases.
+				This means the House of Lords can best represent local changes to a network if machines are added and dropped - this form
+				of representation will be most responsive. However, choosing the representatives of a large scale system that often may
+				delay the speed of decision making. This makes the bicameral structure ideal, where the House of Lords is less responsive
+				but more stable over time.</p>
+
+			<p>Although the term limits are worth integrating into the system, we did not include the proportion of each
+				as it currently exists in the Parliament. The House of Lords in reality is larger than the House of Commons,
+				but in this system, but House of Lords will be significantly smaller.</p>
+
+			<p>Apart from the federated model of decision making, we will also be including votes of confidence. These will be regularly
+				initiated, and can serve to either terminate or renew the lease of a serving prime minister, which, in this case, is automatically
+				enduring unless a Vote of No Confidence occurs.</p>
+
+			<p> Lastly, a Monarch will not be included in this system. In our use case of the Westminster System as a distributed system, it is
+			difficult to imagine a system in which any machine is as permanent as a Monarch, that is not selected or renewed by consensus.</p>
+
+		</div>
+	</div>
+
+	<hr>
+
+	<div id="primer" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">System Design</div>
+			<br>
+			<strong class="sub-heading">Assumptions about the Underlying System Structure</strong><br><br>
+			<strong>Network Structure</strong><br>
+			<p>We assume a network in which there are geographically distributed machines across a broad scale. If not
+				geographically distributed, this system is modelled after machines that represent diverse services,
+				products or operations such that inclusion of different "districts" or zones is important. In this way,
+				the use of constituencies to partition the network into smaller districts for hierarchical voting makes sense.
+				If some decisions to be made are localized to specific districts, then a vote can occur internally, without
+				continuing to deeper levels of the hierarchy before reaching an answer. This can improve efficiency and availability
+				in the larger system, and better utilize the local system.</p>
+
+			<p>Such an assumption requires tools to partition networks. Several algorithms already exist that use different
+				heuristics to separate topologies into smaller clusters which we will consider to be districts: __, __, __.
+				The specific algorithm remains a choice to the implementer of the system, as it should be chosen to best
+				represent the needs of user.</p>
+
+
+			<strong>Commodity Machines</strong><br>
+			<p>We assume the system is composed of several commodity machines. This practically makes sense, as large
+			scale distributed systems do not depend on reliable machines to construct reliable systems. In this system design,
+			we handle the addition or removal of machines with shorter leases for local leader terms. This allows
+			for local leader elections to be more responsive to changes in local districts. Machines also maintain reputations
+			which are based on some heuristic. Machines that have proven more "trustworthiness" score higher reputation
+			metrics, which are used to appoint machines to higher serving positions and carry more voting power.</p>
+
+			<strong>Operations Expected</strong><br>
+			<p>This system can support local leader election (Commons), the selection of the next layer (Lords), global leader
+			election (PM), and standard CRUD operations. Some operations can be handled locally, for example, reads or
+			writes for local districts that do not need consensus among the entire system (could be useful for temporary logs).</p>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row section">
+		<div class="col-md-12">
+			<div class="section-header">System Components</div>
+			<br>
+			<strong class="sub-heading">House of Commons</strong><br>
+			<ul>
+			</ul>
+
+			<br>
+			<strong class="sub-heading">House of Lords</strong><br>
+			<ul>
+			</ul>
+
+
+			<br>
+			<strong class="sub-heading">Prime Minister</strong><br>
+			<ul>
+			</ul>
+
+			<br>
+			<strong class="sub-heading"></strong><br>
+			<p></p>
+
+			<br>
+			<strong class="sub-heading"></strong><br>
+			<p></p>
+		</div>
+	</div>
+
+	<hr>
+
+
+
+
+
+	<hr>
+
+	<div id="landscape" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">The District Level System</div>
+			<Br>
+			<br>
+			<div class="sub-heading">A Toy Model</div>
+			In this visualization, we present a local district voting system. The system starts with Node 0 as its
+			elected local leader. The first panel (center) represents the scoring metrics updating, establishing a reputation
+			on the machines. The top scoring machine is offered a ballot position in the next election, and the current
+			leader will broadcast to all nodes in the district that an election is occuring. Constituent nodes must
+			respond within a fixed amount of time for their vote to count, and the leader announces the newly elected leader
+			by broadcasting to all nodes. A log of the internal system actions is maintained on the right side.
+			<br><br>
+
+			<button class="btn btn-default" id="exampleRunElection">Run Election</button>
+
+			<br><Br>
+			<div class="row">
+				<div class="col-md-6" id="districtExampleSvg"></div>
+				<div class="col-md-3" id="exampleScores"></div>
+				<div class="col-md-3" id="exampleLog"><strong>SYSTEM LOG</strong><BR><br><div id="log-text"></div></div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+	<hr>
+
+
+	<hr>
+
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/d3.js"></script>
+	<!--<script src="js/main.js"></script>-->
+	<script src="js/localelection.js"></script>
+	</body>
+</html>

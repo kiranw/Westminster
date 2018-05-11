@@ -30,7 +30,9 @@
 		<div class="col-md-12">
 			<div class="section-header">Abstract: About Westminster</div>
 				<br/>
-				<p>We were struck by Lamport's Paxos and Byzantine Generals Problem papers. In both of these, Lamport relates
+				<p>We were struck by Lamport's <a href="https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf">Paxos</a>
+					and <a href="https://people.eecs.berkeley.edu/~luca/cs174/byzantine.pdf">Byzantine Generals Problem</a>
+					papers. In both of these, Lamport relates
 					a system design to a human analogy to explain how such a system would look in a mechanism that is relatable.
 					However, what if the inverse approach was applied to designing a system? In this project, we attempt to extract
 					parts of the Westminster System to create a distributed, hierarchical consensus and leader election algorithm.
@@ -287,7 +289,17 @@
 
 			<br>
 			<strong class="sub-heading"></strong><br>
-			<p>In our system, </p>
+			<p>In this visualization, we cover the interactions between districts, between districts and the House,
+				and internally in the house. The top section (directly below here) displays an example of a network
+				divided into 12 districts. Each district has been partitioned based on some heuristic (we discuss this
+				in greater detail in the analysis section). Within each district is a graph of the nodes included, a
+				leader which has been highlighted in blue, and a write queue which has aggregated locally. The elements
+				displayed in each of the 12 containers here are carried over from the previous model of a district's
+				interactions. The leader in blue is elected the same way it was shown in the previous visualization, but
+				the process is not
+			</p>
+
+			<p>Below this, </p>
 
 			<br><br>
 			<strong CLASS="sub-heading">DISTRICTS</strong>

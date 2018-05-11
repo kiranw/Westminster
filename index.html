@@ -30,7 +30,7 @@
 		<div class="col-md-12">
 			<div class="section-header">Abstract: About Westminster</div>
 				<br/>
-				<p>We were struck by Lamport's Paxos and Byzantine Generals Problem papers. In both of these, Lamport relates
+				<p>While reading Lamport's Paxos and Byzantine Generals Problem papers we were struck by how Lamport relates
 					a system design to a human analogy to explain how such a system would look in a mechanism that is relatable.
 					However, what if the inverse approach was applied to designing a system? In this project, we attempt to extract
 					parts of the Westminster System to create a distributed, hierarchical consensus and leader election algorithm.
@@ -53,72 +53,125 @@
 		<div class="col-md-12">
 			<div class="section-header">Introduction: What is the Westminster System?</div>
 			<br>
+			<p>
+			The Westminster System is a parliamentary system of government first
+			developed in the United Kingdom, rooted in the 11th century but
+			developing into the system we recognize in the 17th century. It was later
+			adopted widely around the world and is one of the earliest iterations of
+			a <b>modern</b> parliamentary model that has withstood the test of time,
+			making it a reasonable choice to study as an archetypal example.
+			</p>
+			<p>
+			Important characteristics of the Westminster System are:
+			</p>
+			<ul>
+				<li>
+					A <i>Monarch</i> who is the head of the entire state.
+				</li>
+				<li>
+					A <i>Prime Minister</i> who is the head of the executive branch.
+				</li>
+				<li>
+					A <i>House of Commons</i> and a <i>House of Lords</i> which together
+					form a bicameral legislative branch. Unicameral variants exist, but
+					are less common, like Israel and New Zealand.
+				</li>
+			</ul>
+
+			<br>
+			<strong class="sub-heading">The Monarch</strong><br/>
+			<ul>
+				<li>Terms are often unelected, lifelong and hereditary</li>
+				<li>Is not involved in the day to day operation of government</li>
+				<li>Makes appointments based on the advice of the House and Prime Minister</li>
+				<li>Has limited reserve powers (granting pardons, delaying legislation,
+					dismissing a prime minister) that can be exercised only under
+					exceptional circumstances</li>
+				<li>In some "disintermediated" countries like Ireland and Israel, the
+					head of state is purely ceremonial and performs no function</li>
+			</ul>
+
+			<br>
+			<strong class="sub-heading">The Prime Minister</strong><br>
+			<ul>
+				<li>Usually the leader of the party with the most elected seats in the
+					House of Commons, customarily appointed by the Monarch</li>
+				<li>Selects a cabinet of advisors to form and lead the executive branch</li>
+				<li>Is "Primus inter pares": First among equals, meaning officially the
+					PM has the same powers as the Cabinet and must consult with the
+					Cabinet for all decisions, but informally is accorded additional
+					respect, finalizes all decisions, etc.</li>
+				<li>Can be forced to resign if they lose a vote of confidence in the House of Commons</li>
+				<li>Terms are for five years with no term limit</li>
+			</ul>
+
+			<br>
 			<strong class="sub-heading">House of Commons</strong><br>
 			<ul>
 				<li>Represent different constituencies across the country</li>
-				<li>One representative maps to one constituency</li>
-				<li>Constituencies are decided by Boundary Commissions</li>
+				<li>Convene regularly to suggest, discuss, and agree upon bills that define new laws</li>
+				<li>One representative maps to one constituency, the borders of which
+					are often decided by independent Boundary Commissions</li>
 				<li>In the UK, this is the lower house with 650 seats</li>
 				<li>Can reject a motion of confidence to force resignation by the Prime Minister</li>
-				<li>A Speaker and Opposition Leader are selected</li>
-				<li>No term limit</li>
-				<li>Elected every 5 years or when Parliament dissolves</li>
+				<li>A Speaker and Opposition Leader are elected</li>
+				<li>Terms are for five years with no term limit, or end when Parliament dissolves</li>
 			</ul>
 
 			<br>
 			<strong class="sub-heading">House of Lords</strong><br>
 			<ul>
 				<li>Members are considered to be domain experts</li>
+				<li>Convene regularly to scrutinize bills passed by the House of Commons</li>
 				<li>Most members are appointed, some are elected</li>
-				<li>Total number of members is not fixed (currently 781)</li>
+				<li>In the UK, total number of members is not fixed (currently 781)</li>
 				<li>Members usually come from the House of Commons</li>
-				<li>Scrutinize bills passed by the House of Commons</li>
 				<li>Cannot prevent bills from being passed into law, but can force the Commons to reconsider votes and delay a process</li>
 				<li>Terms are 15 years</li>
 				<li>Members are capped at 1 term</li>
 			</ul>
 
 			<br>
-			<strong class="sub-heading">Monarch</strong><br>
-			<ul>
-				<li>Makes appointments based on the advice of the House and Prime Minister</li>
-				<li>Terms are lifelong and hereditary</li>
-				<li>There is no election</li>
-			</ul>
 
-			<br>
-			<strong class="sub-heading">Prime Minister</strong><br>
-			<ul>
-				<li>Selects a cabinet of advisors</li>
-				<li>Appointed by the Monarch as a person with the confidence of the House of Commons</li>
-				<li>"Primus inter pares": First among equals</li>
-				<li>Can be forced to resign if they lose a vote of confidence</li>
-				<li>Terms are "at her majesty's pleasure"</li>
-			</ul>
-
-			<br>
-
-			<p>This is an extremely reductive representation of only parts of the Parliament system. There is also a judiciary system which
-				we will not be exploring in this project, because revision and review of a corpus of data that has already been agreed upon
+			<p>This is an extremely reductive representation of only parts of the Parliament. There is also a judiciary system which
+				we will not be exploring in this project, because revision and review of data that has already been agreed upon
 				occurs in the Parliament in our model system.</p>
 
-			<p>It is worth highlighting a few key characteristics we want to embrace, and others we will not be including in the project.
-				The House of Commons serves a shorter cycle than the House of Lords, which allows for staggered voting and different leases.
-				This means the House of Lords can best represent local changes to a network if machines are added and dropped - this form
-				of representation will be most responsive. However, choosing the representatives of a large scale system that often may
-				delay the speed of decision making. This makes the bicameral structure ideal, where the House of Lords is less responsive
-				but more stable over time.</p>
+			<p>It is worth highlighting a few key characteristics we want to embrace, and others we will not be including in the project:
+			</p>
+			<ul>
+				<li>The House of Commons serves a shorter cycle than the House of
+					Lords, which allows for staggered voting and different leases. This
+					means the House of Lords can best represent local changes to a
+					network if machines are added and dropped - this form of
+					representation will be most responsive. However, choosing the
+					representatives of a large scale system too often may delay the
+					speed of decision making. This makes the bicameral structure favorable,
+					where the House of Lords is less responsive but more stable over
+					time.
+				</li>
+				<li> Although the term limits are worth integrating into the system, we
+					did not include the proportion of each as it currently exists in the
+					Parliament. The House of Lords in reality is larger than the House of
+					Commons, but in this system, but House of Lords will be significantly
+					smaller.
+				</li>
 
-			<p>Although the term limits are worth integrating into the system, we did not include the proportion of each
-				as it currently exists in the Parliament. The House of Lords in reality is larger than the House of Commons,
-				but in this system, but House of Lords will be significantly smaller.</p>
+			<li> Apart from the federated model of decision making, we will also be
+				including votes of confidence. These will be regularly initiated, and
+				can serve to either terminate or renew the lease of a serving prime
+				minister, which, in this case, is automatically enduring unless a Vote
+				of No Confidence occurs.
+			</li>
 
-			<p>Apart from the federated model of decision making, we will also be including votes of confidence. These will be regularly
-				initiated, and can serve to either terminate or renew the lease of a serving prime minister, which, in this case, is automatically
-				enduring unless a Vote of No Confidence occurs.</p>
+			<li> Lastly, a Monarch will not be included in this system because we
+				struggled to find a purpose for this mostly ceremonial role. Also in
+				any distributed system, it is difficult to imagine a system in which
+				any machine is as permanent as a Monarch, that is not selected or
+				renewed by consensus.
+			</li>
 
-			<p> Lastly, a Monarch will not be included in this system. In our use case of the Westminster System as a distributed system, it is
-			difficult to imagine a system in which any machine is as permanent as a Monarch, that is not selected or renewed by consensus.</p>
+
 
 		</div>
 	</div>

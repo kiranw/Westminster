@@ -64,6 +64,69 @@
 
 	<hr>
 
+	<div id="related-work" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">Related Work</div>
+			<br>
+			<p>Aside from the Lamport paper, trying to find previous work in the area
+			drawing inspiration from governments for distributed systems proved to be
+			challenging. However, widening our scope a bit, we were able to find some
+			interesting papers in related subjects that offer some insights and
+			support for our way of thinking.</p>
+
+			<p>One paper by Imamichi talks about "Distributed Information Systems and
+			Human Organization", which seemed promising but ended up being about the
+			effect of moving from centralized to distributed computer systems on
+			human organizations, and not about distributed systems-inspired human
+			organizations. Nonetheless the implication was that the system that
+			humans use to communicate and coordinate with each other has an effect on
+			how they conduct their daily business, which was promising.</p>
+
+			<p>Another paper by Axtell ties the idea of agent-based modelling in
+			Economics with Distributed Computing. This is a highly theoretical,
+			unfocused and sprawling paper that incorporates many ideas, and
+			criticizes the mathematical modelling approaches at the time for making
+			overly simplified assumptions of human systems. It likens human agents in
+			an economic system to "concurrent processes with heterogeneous
+			information". Interestingly, it argues that "real societies are
+			asynchronous", and then goes on to list the effects of this, most of
+			which are familiar to us from a distributed systems context. It also
+			portrays humans as agents having to constantly deal with incomplete and
+			out of date information and making best-effort decisions based on that.
+			If anything, this paper agrees with our hunch that humans deal with
+			distributed systems problems all the time, and provides further
+			justification for our investigation.</p>
+
+			<p>One of the citations for this paper, by Huberman and Hogg from Xerox
+			PARC, likens computer networks to market economies ("coordinating
+			asynchronous operations in the face of imperfect knowledge"), which is an
+			encouraging sign that we're looking at something interesting. However the
+			paper itself mostly deals with the allocation of resources and less about
+			consensus. One interesting point is that it warns about how humans are
+			more complex and slower than machines on a network, and that while in
+			distributed systems it's a nice approach to try to eliminate these
+			problems systematically (deploy uniform software on homogeneous machines,
+			build networks with ordering guarantees, etc), in the case of humans
+			we're often stuck with the eccentricities that come with them and need to
+			deal with them directly.</p>
+
+			<p>Finally, the field of Human Based Computation offers some interesting
+			insights. Systems like CAPTCHAs, Collaborative Filtering systems (like
+			Netflix or Yelp) can all be thought of as distributed consensus systems.
+			Many users voting 0 to 5 stars on a TV show over time is essentially a
+			distributed and asynchronous consensus process with no time limit. In
+			this field, incentive to participate is a big consideration -  the
+			assumption being that by default people might not want to participate and
+			they have to be attracted with some benefit. For us, it's the opposite -
+			in a legislative system, the benefits are often quite clear to the
+			participants, and it's rather a problem of attracting the right kind of
+			participant, which does not really affect how our model works.</p>
+		</div>
+	</div>
+
+
+	<hr>
+
 	<div id="primer" class="section row">
 		<div class="col-md-12">
 			<div class="section-header">Introduction: What is the Westminster System?</div>
@@ -426,67 +489,6 @@
 	-->
 
 			</p>
-		</div>
-	</div>
-
-	<hr>
-
-	<div id="related-work" class="section row">
-		<div class="col-md-12">
-			<div class="section-header">Related Work</div>
-			<br>
-			<p>Aside from the Lamport paper, trying to find previous work in the area
-			of simulating parliaments as distributed systems proved to be
-			challenging. However, widening our scope a bit, we were able to find some
-			interesting papers in related subjects that offer some insights.</p>
-
-			<p>One paper by Imamichi talks about "Distributed Information Systems and
-			Human Organization", which seemed promising but ended up being about the
-			effect of moving from centralized to distributed computer systems on
-			human organizations, and not about distributed systems-inspired human
-			organizations. Nonetheless the implication was that the system that
-			humans use to communicate and coordinate with each other has an effect on
-			how they conduct their daily business, which was promising.</p>
-
-			<p>Another paper by Axtell ties the idea of agent-based modelling in
-			Economics with Distributed Computing. This is a highly theoretical,
-			unfocused and sprawling paper that incorporates many ideas, and
-			criticizes the mathematical modelling approaches at the time for making
-			overly simplified assumptions of human systems. It likens human agents in
-			an economic system to "concurrent processes with heterogeneous
-			information". Interestingly, it argues that "real societies are
-			asynchronous", and then goes on to list the effects of this, most of
-			which are familiar to us from a distributed systems context. It also
-			portrays humans as agents having to constantly deal with incomplete and
-			out of date information and making best-effort decisions based on that.
-			If anything, this paper agrees with our hunch that humans deal with
-			distributed systems problems all the time, and provides further
-			justification for our investigation.</p>
-
-			<p>One of the citations for this paper, by Huberman and Hogg from Xerox
-			PARC, likens computer networks to market economies ("coordinating
-			asynchronous operations in the face of imperfect knowledge"), which is an
-			encouraging sign that we're looking at something interesting. However the
-			paper itself mostly deals with the allocation of resources and less about
-			consensus. One interesting point is that it warns about how humans are
-			more complex and slower than machines on a network, and that while in
-			distributed systems it's a nice approach to try to eliminate these
-			problems systematically (deploy uniform software on homogeneous machines,
-			build networks with ordering guarantees, etc), in the case of humans
-			we're often stuck with the eccentricities that come with them and need to
-			deal with them directly.</p>
-
-			<p>Finally, the field of Human Based Computation offers some interesting
-			insights. Systems like CAPTCHAs, Collaborative Filtering systems (like
-			Netflix or Yelp) can all be thought of as distributed consensus systems.
-			Many users voting 0 to 5 stars on a TV show over time is essentially a
-			distributed and asynchronous consensus process with no time limit. In
-			this field, incentive to participate is a big consideration -  the
-			assumption being that by default people might not want to participate and
-			they have to be attracted with some benefit. For us, it's the opposite -
-			in a legislative system, the benefits are often quite clear to the
-			participants, and it's rather a problem of attracting the right kind of
-			participant, which does not really affect how our model works.</p>
 		</div>
 	</div>
 

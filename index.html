@@ -124,12 +124,11 @@
 		</div>
 	</div>
 
-
 	<hr>
 
 	<div id="primer" class="section row">
 		<div class="col-md-12">
-			<div class="section-header">Introduction: What is the Westminster System?</div>
+			<div class="section-header">What is the Westminster System?</div>
 			<br>
 			<p>
 			The Westminster System is a parliamentary system of government first
@@ -137,7 +136,8 @@
 			developing into the system we recognize in the 17th century. It was later
 			adopted widely around the world and is one of the earliest iterations of
 			a <b>modern</b> parliamentary model that has withstood the test of time,
-			making it a reasonable choice to study as an archetypal example.
+			making it a reasonable choice to study as an archetypal example of a real
+			world government consensus system.
 			</p>
 			<p>
 			Important characteristics of the Westminster System are:
@@ -184,7 +184,7 @@
 			</ul>
 
 			<br>
-			<strong class="sub-heading">House of Commons</strong><br>
+			<strong class="sub-heading">The House of Commons</strong><br>
 			<ul>
 				<li>Represent different constituencies across the country</li>
 				<li>Convene regularly to suggest, discuss, and agree upon bills that define new laws</li>
@@ -197,7 +197,7 @@
 			</ul>
 
 			<br>
-			<strong class="sub-heading">House of Lords</strong><br>
+			<strong class="sub-heading">The House of Lords</strong><br>
 			<ul>
 				<li>Members are considered to be domain experts</li>
 				<li>Convene regularly to scrutinize bills passed by the House of Commons</li>
@@ -205,54 +205,93 @@
 				<li>In the UK, total number of members is not fixed (currently 781)</li>
 				<li>Members usually come from the House of Commons</li>
 				<li>Cannot prevent bills from being passed into law, but can force the Commons to reconsider votes and delay a process</li>
-				<li>Terms are 15 years</li>
-				<li>Members are capped at 1 term</li>
+				<li>Terms are 15 years, capped at 1 term for elected members, except for some special members who are appointed for life.</li>
 			</ul>
 
-			<br>
+		</div>
+	</div>
 
-			<p>This is an extremely reductive representation of only parts of the Parliament. There is also a judiciary system which
-				we will not be exploring in this project, because revision and review of data that has already been agreed upon
-				occurs in the Parliament in our model system.</p>
 
-			<p>It is worth highlighting a few key characteristics we want to embrace, and others we will not be including in the project:
+	<div id="keep" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">What's worth keeping?</div><br/>
+
+			<p>
+			The above description is an extremely reductive version of the real
+			system as implemented. The first thing that struck us after researching
+			the Westminster System is just how complicated it is, with many tedious
+			details, exceptions and special cases along with many practices that are
+			seemingly there only for historical reasons. So we included only the
+			salient points.
+			
+			From what remains, it is worth highlighting a few key characteristics we
+			want to embrace, and others we would like to omit before we describe the
+			system in full.
+
 			</p>
-			<ul>
-				<li>The House of Commons serves a shorter cycle than the House of
-					Lords, which allows for staggered voting and different leases. This
-					means the House of Lords can best represent local changes to a
-					network if machines are added and dropped - this form of
-					representation will be most responsive. However, choosing the
-					representatives of a large scale system too often may delay the
-					speed of decision making. This makes the bicameral structure favorable,
-					where the House of Lords is less responsive but more stable over
-					time.
-				</li>
-				<li> Although the term limits are worth integrating into the system, we
-					did not include the proportion of each as it currently exists in the
-					Parliament. The House of Lords in reality is larger than the House of
-					Commons, but in this system, but House of Lords will be significantly
-					smaller.
-				</li>
 
-			<li> Apart from the federated model of decision making, we will also be
-				including votes of confidence. These will be regularly initiated, and
-				can serve to either terminate or renew the lease of a serving prime
-				minister, which, in this case, is automatically enduring unless a Vote
-				of No Confidence occurs.
-			</li>
+				<p>One notable detail about how the actual Westminster System works is
+					that the elected representatives represent different geographical
+					regions. This reminded us of global, federated networks of computers
+					with layers of structure (e.g. in-datacenter versus across the
+					world), so we chose that as the scenario to build towards.
+				</p>
 
-			<li> Lastly, a Monarch will not be included in this system because we
+				<p> Lastly, a Monarch will not be included in this system because we
 				struggled to find a purpose for this mostly ceremonial role. Also in
 				any distributed system, it is difficult to imagine a system in which
 				any machine is as permanent as a Monarch, that is not selected or
 				renewed by consensus.
-			</li>
+				</p>
 
+				<p>In the Westminster System, The House of Commons serves a different,
+					shorter cycle than the House of Lords. This is an interesting idea,
+					because it allows for two different classes of members that have
+					staggered leases, which might eliminate a situation where everyone
+					voting or changing at the same time causes problems. The "thundering
+					herd problem" is one example where every node in a system doing
+					things simultaneously causes undesirable spikes in resource usage
+					resources and bandwidth problems.
 
+					The House of Lords can best represent local changes to a network if
+					machines are added and dropped - this form of representation will be
+					most responsive. However, choosing the representatives of a large
+					scale system too often may delay the speed of decision making. This
+					makes the bicameral structure favorable, where the House of Lords is
+					less responsive but more stable over time.
+				</p>
+				<p>
+					Term limits are also an interesting idea - it prevents members of the
+					system from becoming "special", which would imply an over-reliance on
+					those members which might cause reliability issues.
 
+					It is a truism in reliable systems that things that happen rarely are
+					error-prone because they end up being not well-tested in the real
+					world. For example, failover in traditional data systems is something
+					that systems administrators fear. Netflix's Chaos Monkey is an
+					interesting approach to this problem: by inducing failure on purpose,
+					they make failover a routine scenario rather than an exceptional one.
+
+					Term limits are a similar idea: nodes have to swap duties after a
+					certain period of time, so that swapping duties becomes routine.
+
+					Although term limits are worth integrating into the system, we did
+					not include the proportion of each as it currently exists in the
+					Parliament. The House of Lords in reality is larger than the House of
+					Commons, but in this system, but House of Lords will be significantly
+					smaller.
+				</p>
+				<p> A vote of confidence regulates the term of the Prime Minster. These
+				will be regularly initiated, and can serve to either terminate or renew
+				the lease of a serving prime minister, which, in this case, is
+				automatically enduring unless a Vote of No Confidence occurs. </p>
+				<p>There is a judiciary in the Westminster System whose job it is to
+				interpret and apply the laws that the legislative branch agrees upon.
+				Since in our case "laws" are merely values in a distributed system,
+				there isn't really anything to interpret and apply.
+				</p>
+			</div>
 		</div>
-	</div>
 
 	<hr>
 

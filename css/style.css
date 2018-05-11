@@ -72,7 +72,7 @@ circle.leader+text{
   fill: white !important;
 }
 
-#exampleLog, #exampleScores {
+#exampleLog, #exampleScores, #commonsLog, #commonsScores {
   background-color: #efefef;
   height: 500px;
   border-radius: 50px;
@@ -80,7 +80,7 @@ circle.leader+text{
   padding: 30px;
 }
 
-#log-text {
+#log-text, #commons-log-text {
   height: 400px;
   overflow-y: scroll;
 }

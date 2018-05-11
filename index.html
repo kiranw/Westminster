@@ -250,36 +250,48 @@
 			<strong CLASS="sub-heading">DISTRICTS</strong>
 			<BR><BR>
 			<div class="row">
-				<div class="col-md-2" id="commonsDistrict0"></div>
-				<div class="col-md-2" id="commonsDistrict1"></div>
-				<div class="col-md-2" id="commonsDistrict2"></div>
-				<div class="col-md-2" id="commonsDistrict3"></div>
-				<div class="col-md-2" id="commonsDistrict4"></div>
-				<div class="col-md-2" id="commonsDistrict5"></div>
+				<div class="col-md-2 col_0"><div id="commonsDistrict0"></div><strong>WRITE QUEUE</strong><br><div id="c0_write">[]</div><br></div>
+				<div class="col-md-2 col_1"><div id="commonsDistrict1"></div><strong>WRITE QUEUE</strong><br><div id="c1_write">[]</div><br></div>
+				<div class="col-md-2 col_2"><div id="commonsDistrict2"></div><strong>WRITE QUEUE</strong><br><div id="c2_write">[]</div><br></div>
+				<div class="col-md-2 col_3"><div id="commonsDistrict3"></div><strong>WRITE QUEUE</strong><br><div id="c3_write">[]</div><br></div>
+				<div class="col-md-2 col_4"><div id="commonsDistrict4"></div><strong>WRITE QUEUE</strong><br><div id="c4_write">[]</div><br></div>
+				<div class="col-md-2 col_5"><div id="commonsDistrict5"></div><strong>WRITE QUEUE</strong><br><div id="c5_write">[]</div><br></div>
 			</div>
 			<br>
 			<div class="row">
-				<div class="col-md-2" id="commonsDistrict6"></div>
-				<div class="col-md-2" id="commonsDistrict7"></div>
-				<div class="col-md-2" id="commonsDistrict8"></div>
-				<div class="col-md-2" id="commonsDistrict9"></div>
-				<div class="col-md-2" id="commonsDistrict10"></div>
-				<div class="col-md-2" id="commonsDistrict11"></div>
+				<div class="col-md-2 col_6"><div id="commonsDistrict6"></div><strong>WRITE QUEUE</strong><br><div id="c6_write">[]</div><br></div>
+				<div class="col-md-2 col_7"><div id="commonsDistrict7"></div><strong>WRITE QUEUE</strong><br><div id="c7_write">[]</div><br></div>
+				<div class="col-md-2 col_8"><div id="commonsDistrict8"></div><strong>WRITE QUEUE</strong><br><div id="c8_write">[]</div><br></div>
+				<div class="col-md-2 col_9"><div id="commonsDistrict9"></div><strong>WRITE QUEUE</strong><br><div id="c9_write">[]</div><br></div>
+				<div class="col-md-2 col_10"><div id="commonsDistrict10"></div><strong>WRITE QUEUE</strong><br><div id="c10_write">[]</div><br></div>
+				<div class="col-md-2 col_11"><div id="commonsDistrict11"></div><strong>WRITE QUEUE</strong><br><div id="c11_write">[]</div><br></div>
 			</div>
+			<br><Br>
+			<br><Br>
 			<br><Br>
 			<strong CLASS="sub-heading">HOUSE OF COMMONS</strong>
 			<BR>
 			<BR>
 
-			<button class="btn btn-default" id="commonsElection">Run Election</button>
+			<button class="btn btn-default" id="commonsParliament">Parliament Session</button>
+			<button class="btn btn-default" id="commonsPM">Vote of Confidence</button>
+			<button class="btn btn-default" id="commonsElection">Elect House of Commons</button>
+			<br><br>
 			<div class="row">
 				<div class="col-md-6" id="commonsSvg"></div>
-				<div class="col-md-3" id="commonsScores"></div>
-				<div class="col-md-3" id="commonsLog"><strong>SYSTEM LOG</strong><BR><br><div id="log-text"></div></div>
+				<div class="col-md-3" id="commonsScores">
+					<div id="commonsScores1"></div>
+					<br>
+					<strong>Write Queue</strong><br>
+					<div id="commonsWriteQueue">[]</div>
+				</div>
+				<div class="col-md-3" id="commonsLog"><strong>SYSTEM LOG</strong><BR><br><div id="commons-log-text"></div></div>
 			</div>
 
 		</div>
 	</div>
+
+	<hr>
 
 	<div id="related-work" class="section row">
 		<div class="col-md-12">
@@ -339,7 +351,11 @@
 			participants, and it's rather a problem of attracting the right kind of
 			participant, which might not really affect how our model works.</p>
 		</div>
+	</div>
 
+	<hr>
+
+	<div id="conclusions" class="section row">
 		<div class="col-md-12">
 			<div class="section-header">Conclusions and Future Work</div>
 			<br>
@@ -347,7 +363,9 @@
 			Lorem ipsum dolor sit amet
 			</p>
 		</div>
+	</div>
 
+	<div id="citations" class="section row">
 		<div class="col-md-12">
 			<div class="section-header">Citations</div>
 			<br/>

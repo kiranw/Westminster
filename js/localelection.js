@@ -178,10 +178,10 @@ function updateScores(){
     // If leader's score is not the max, change color to red
     local_nodes.forEach(function(d){
         if (currentLeader == d){
-            scores[d] += (getRandomInt(30) - 14)/100;
+            scores[d] += (getRandomInt(30) - 15);
         }
         else {
-            scores[d] += (getRandomInt(30) - 15)/100;
+            scores[d] += (getRandomInt(30) - 15);
         }
     })
     $("#" + districtID + "Scores1").text(JSON.stringify(scores, null, 2));
@@ -415,5 +415,4 @@ function appendToLog(msg,node,index,flag){
         $("#log-text").append(timeStamp() + "<br><strong>" + msg+"</strong><br><br>")
         $("#log-text").scrollTop($("#log-text").prop("scrollHeight"));
     }
-
 }

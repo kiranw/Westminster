@@ -14,7 +14,7 @@
 
 	<div id="header" class="row">
 		<div class="col-md-10">
-			<h1 class="headline-style">Westminster, The Distributed Consensus System</h1>
+			<h1 class="headline-style">Westminster, The Federated Distributed Consensus System</h1>
 			<br>
 			<h4>Mali Akmanalp, mali@akmanalp.com</h4>
 			<h4>Kiran Wattamwar, kwattamwar@mde.harvard.edu</h4>
@@ -32,7 +32,7 @@
 				<p>We were struck by Lamport's Paxos and Byzantine Generals Problem papers. In both of these, Lamport relates
 					a system design to a human analogy to explain how such a system would look in a mechanism that is relatable.
 					However, what if the inverse approach was applied to designing a system? In this project, we attempt to extract
-					parts of the Westminster System to create a distributed, hierarchical conensus and leader election algorithm.
+					parts of the Westminster System to create a distributed, hierarchical consensus and leader election algorithm.
 				</p>
 				<p>Whether human analogies incept the ideas, or the ideas beget analogies we were interested to see what
 					could be gained from applying human systems to distributed systems. It is clear that there are
@@ -131,7 +131,7 @@
 			<strong class="sub-heading">Assumptions about the Underlying System Structure</strong><br><br>
 			<strong>Network Structure</strong><br>
 			<p>We assume a network in which there are geographically distributed machines across a broad scale. If not
-				geographically distributed, this system is modelled after machines that represent diverse services,
+				geographically distributed, this system is modeled after machines that represent diverse services,
 				products or operations such that inclusion of different "districts" or zones is important. In this way,
 				the use of constituencies to partition the network into smaller districts for hierarchical voting makes sense.
 				If some decisions to be made are localized to specific districts, then a vote can occur internally, without
@@ -186,22 +186,36 @@
 			<br>
 			<strong class="sub-heading">House of Commons</strong><br>
 			<ul>
+				<li>Members are winners of district elections</li>
+				<li>Relay requests from district to house if valid</li>
+				<li>Collect requests that cannot be handled without consensus (write) until next Parliament meeting</li>
+				<li>Load balancer for reads that can be managed at the district level (do not pass operation up hierarchy)</li>
+				<li>Re-elect at regular interval, shortest lease of all positions</li>
+				<li>Serve as the most responsive body to local district changes in network</li>
 			</ul>
 
 			<br>
 			<strong class="sub-heading">House of Lords</strong><br>
 			<ul>
+				<li>Members are selected during elections from the top 1/4 highest scoring current house members</li>
+				<li>Longer term leases</li>
+				<li>Vote on writes generated at the House of Commons and passed up from their districts</li>
+				<li>When a vote reaches consensus, report to PM to actually internalize the operation in the system</li>
+				<li>"Domain" experts based on reputation scores</li>
 			</ul>
 
 
 			<br>
 			<strong class="sub-heading">Prime Minister</strong><br>
 			<ul>
+				<li>When consensus is reached, handles the writes and broadcasts to the system about changes</li>
+				<li>Serves for a term as a stable leader (multi-Paxos)</li>
+				<li>Leader transitions are the same as those in Multi-Paxos</li>
 			</ul>
 
 			<br>
 			<strong class="sub-heading"></strong><br>
-			<p></p>
+			<p>In our system, </p>
 
 			<br>
 			<strong class="sub-heading"></strong><br>
@@ -250,6 +264,10 @@
 				<div class="col-md-3" id="exampleLog"><strong>SYSTEM LOG</strong><BR><br><div id="log-text"></div></div>
 			</div>
 
+			<br><br><br><br><br>
+			<strong class="sub-heading"></strong><br>
+			<p>In our system, </p>
+
 		</div>
 	</div>
 
@@ -265,6 +283,10 @@
 			<Br>
 			<br>
 			<div class="sub-heading">A Toy Model</div>
+
+			<br>
+			<strong class="sub-heading"></strong><br>
+			<p>In our system, </p>
 
 			<br><br>
 			<strong CLASS="sub-heading">DISTRICTS</strong>
@@ -309,6 +331,32 @@
 				<div class="col-md-3" id="commonsLog"><strong>SYSTEM LOG</strong><BR><br><div id="commons-log-text"></div></div>
 			</div>
 
+
+
+			<br><br><br><br><br>
+			<strong class="sub-heading"></strong><br>
+			<p>In our system, </p>
+		</div>
+	</div>
+
+	<hr>
+
+	<div id="analysis" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">Design Analysis</div>
+			<br>
+			<p>
+				<!--talk about these points:
+				- this is a weaker system for small scale networks where a hierarchy does not make sense
+				- need to select the zoning algorithm for districts based on the behavior observed in the network
+				- if you can naturally balance loads at district levels, this can reduce load on the system as a whole when
+				only district-level consensus is needed for some data
+				- moves critical requests up a hierarchy - model is good for balancing systems where there are diffrent
+				requirements for consistency at the same time (some things are critical, others are local)
+				- several leader elections are required - we stagger ours the same way a company would during a failover
+	-->
+
+			</p>
 		</div>
 	</div>
 
@@ -382,6 +430,11 @@
 			<br>
 			<p>
 			Lorem ipsum dolor sit amet
+				<!--
+				- districts can be different sizes, we do not model that here
+				- reputation metrics also should be based on real data, in our toy model we don't have that
+				-
+				-->
 			</p>
 		</div>
 	</div>

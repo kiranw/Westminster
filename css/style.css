@@ -84,3 +84,11 @@ circle.leader+text{
   height: 400px;
   overflow-y: scroll;
 }
+
+.label2 {
+  font-size: 1.2em;
+}
+
+.leading-district {
+  background-color: rgba(77,148,255,0.2);
+}

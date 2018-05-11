@@ -32,9 +32,31 @@ var width = 500,
 var force = d3.forceSimulation(nodes)
     .force("link", d3.forceLink(links));
 
+var exampleWriteQueue = []
+var exampleReadQueue = []
+
 
 // returns random int between 0 and num
 function getRandomInt(num) {return Math.floor(Math.random() * (num));}
+
+
+
+function timeStamp() {
+    // Create a date object with the current time
+    var now = new Date();
+    var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+    var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
+    var suffix = ( time[0] < 12 ) ? "AM" : "PM";
+    time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12;
+    time[0] = time[0] || 12;
+    for ( var i = 1; i < 3; i++ ) {
+        if ( time[i] < 10 ) {
+            time[i] = "0" + time[i];
+        }
+    }
+    // Return the formatted string
+    return date.join("/") + " " + time.join(":") + " " + suffix;
+}
 
 
 // evenly spaces nodes along arc
@@ -86,7 +108,6 @@ force.restart();
 // set coordinates for container nodes
 nodes.forEach(function(n, i) {
     var coord = circleCoord(n, i, nodes.length);
-    console.log(coord);
     n.x = coord.x;
     n.y = coord.y;
 });
@@ -157,13 +178,13 @@ function updateScores(){
     // If leader's score is not the max, change color to red
     local_nodes.forEach(function(d){
         if (currentLeader == d){
-            scores[d] += (getRandomInt(30) - 8)/100;
+            scores[d] += (getRandomInt(60) - 30);
         }
         else {
-            scores[d] += (getRandomInt(30) - 10)/100;
+            scores[d] += (getRandomInt(30) - 15);
         }
     })
-    $("#" + districtID + "Scores").text(JSON.stringify(scores, null, 2));
+    $("#" + districtID + "Scores1").text(JSON.stringify(scores, null, 2));
 }
 setInterval(updateScores, 500);
 
@@ -185,21 +206,9 @@ d3.select("#exampleRunElection").on("click", function() {
     var nodes = d3.range(total_nodes).map(function(d) { return {id: d} });
     nodes.forEach(function(n, i) {
         var coord = circleCoord(n, i, nodes.length);
-        console.log(coord);
         n.x = coord.x;
         n.y = coord.y;
     });
-
-    // function endall(transition, callback) {
-    //     if (typeof callback !== "function") throw new Error("Wrong callback in endall");
-    //     if (transition.size() === 0) { callback() }
-    //     var n = 0;
-    //     transition
-    //         .each(function() { ++n; })
-    //         .each("end", function() { if (!--n) callback.apply(this, arguments); });
-    // }
-
-    var transitions = 0;
 
     var broadcast_node = svg.append("g")
         .attr("class","broadcast")
@@ -211,10 +220,10 @@ d3.select("#exampleRunElection").on("click", function() {
         .attr("fill", "black")
         .attr("opacity", 0)
         .attr("class", "bnode")
-        .attr("cx",function(d){ console.log(nodes[0].x); return nodes[currentLeader].x;  })
+        .attr("cx",function(d){ return nodes[currentLeader].x;  })
         .attr("cy", function(d){ return nodes[currentLeader].y ; })
         .transition()
-        .duration(6000)
+        .duration(function(){ return getRandomInt(800) + 5000; })
         .attr("opacity",1)
         .attr("cx", function(d){ return d.x;})
         .attr("cy", function(d){ return d.y})
@@ -222,13 +231,14 @@ d3.select("#exampleRunElection").on("click", function() {
             appendToLog("broadcasting vote request",d,i,true);
         })
         .transition(0)
-        .duration(1000)
+        .duration(function(){ return getRandomInt(800) + 200; })
         .attr("opacity",0)
         .on( "end", function(d,i) {
             appendToLog(i + " received request",d,i,false);
         })
         .transition()
-        .duration(6000)
+        .duration(function(){ return getRandomInt(800) + 5000; })
+        .delay( function(){ return getRandomInt(500); })
         .attr("opacity",1)
         .attr("cx", nodes[currentLeader].x)
         .attr("cy", nodes[currentLeader].y)
@@ -239,7 +249,8 @@ d3.select("#exampleRunElection").on("click", function() {
         .duration(1000)
         .attr("opacity",0)
         .transition()
-        .duration(6000)
+        .duration(function(){ return getRandomInt(800) + 5000; })
+        .delay( function(){ return getRandomInt(700); })
         .attr("opacity",1)
         .attr("cx", function(d){ return d.x;})
         .attr("cy", function(d){ return d.y})
@@ -252,32 +263,157 @@ d3.select("#exampleRunElection").on("click", function() {
         .on( "end", function(d,i) {
             transitionLeader(d,i);
         })
-    ;
+        .exit().remove();
     // New leader starts
 
 });
 
 // Run a write at some random interval
-function callWrite(){
+function callRead(){
     // Randomly choose a node to request to current leader
     // Send circle to leader
     // Leader either adds to their issue list or doesnt randomly
+        appendToLog("initiating read request");
+
+        var nodes = d3.range(total_nodes).map(function(d) { return {id: d} });
+        nodes.forEach(function(n, i) {
+            var coord = circleCoord(n, i, nodes.length);
+            n.x = coord.x;
+            n.y = coord.y;
+        });
+
+        selectedNode = nodes[getRandomInt(total_nodes)];
+
+        var broadcast_node2 = svg.selectAll(".bnode3")
+            .data([selectedNode])
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("fill", "black")
+            .attr("opacity", 1)
+            .attr("class", "bnode3")
+            .attr("cx", function(d){ return d.x; })
+            .attr("cy", function(d){ return d.y; })
+            .transition()
+            .duration(function(){ return getRandomInt(800) + 2000; })
+            .attr("opacity",1)
+            .attr("cx", nodes[currentLeader].x)
+            .attr("cy", nodes[currentLeader].y)
+            .on( "start", function() {
+                appendToLog("requesting read",selectedNode,0,false);
+            })
+            .transition()
+            .duration(400)
+            .attr("opacity", 0)
+            .transition(500)
+            .duration(function(){ return getRandomInt(800) + 2000; })
+            .attr("opacity", 1)
+            .attr("cx", function(d){ return d.x; })
+            .attr("cy", function(d){ return d.y; })
+            .on("start", function() {
+                appendToLog("received read request",selectedNode,0,false);
+                updateReadQueue(selectedNode.id,true);
+            })
+            .on("end", function() {
+                appendToLog("read response issued",selectedNode,0,false);
+                updateReadQueue(selectedNode.id,false);
+            })
+            .transition()
+            .duration(400)
+            .attr("opacity", 0).remove()
+            .on("end", function() {
+                appendToLog("read response received",selectedNode,0,false);
+            });
+
+
 }
 
+function updateWriteQueue(srcNode){
+    exampleWriteQueue.push([srcNode, currentLeader]);
+    $("#exampleWriteQueue").text(JSON.stringify(exampleWriteQueue));
+}
+
+function updateReadQueue(srcNode,add){
+    if (add){
+        exampleReadQueue.push([srcNode, currentLeader]);
+        $("#exampleReadQueue").text(JSON.stringify(exampleReadQueue));
+    }
+    else {
+        exampleReadQueue = [];
+        $("#exampleReadQueue").text(JSON.stringify(exampleReadQueue));
+    }
+}
+
+d3.select("#exampleWrite").on("click", function(){ callWrite();});
+d3.select("#exampleRead").on("click", function(){ callRead();});
+
 // Run a read on some random interval
-function callRead(){
+function callWrite(){
     // Randomly choose a node to request
     // Send circle to the leader
     // Leader responds back
+    appendToLog("initiating write request");
+
+    var nodes = d3.range(total_nodes).map(function(d) { return {id: d} });
+    nodes.forEach(function(n, i) {
+        var coord = circleCoord(n, i, nodes.length);
+        n.x = coord.x;
+        n.y = coord.y;
+    });
+
+    selectedNode = nodes[getRandomInt(total_nodes)];
+    console.log(selectedNode)
+    console.log(currentLeader)
+
+    var broadcast_node2 = svg.selectAll(".bnode2")
+        .data([selectedNode])
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("fill", "black")
+        .attr("opacity", 1)
+        .attr("class", "bnode2")
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        .transition()
+        .duration(function(){ console.log("hi"); return getRandomInt(800) + 2000; })
+        .attr("opacity",1)
+        .attr("cx", nodes[currentLeader].x)
+        .attr("cy", nodes[currentLeader].y)
+        .on( "start", function() {
+            appendToLog("requesting write",selectedNode,0,false);
+        })
+        .transition()
+        .duration(400)
+        .attr("opacity", 0)
+        .transition(500)
+        .duration(function(){ return getRandomInt(800) + 2000; })
+        .attr("opacity", 1)
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        .on("start", function() {
+            appendToLog("received write request",selectedNode,0,false);
+        })
+        .on("end", function() {
+            appendToLog("ack write request",selectedNode,0,false);
+            updateWriteQueue(selectedNode.id);
+        })
+        .transition()
+        .duration(400)
+        .attr("opacity", 0).remove();
 }
 
 function appendToLog(msg,node,index,flag){
+    console.log($("#log-text").prop("scrollHeight"));
     if (flag){
         if (index==0){
-            $("#log-text").append(Date.now() + "<br><strong>" + msg+"</strong><br><br>")
+            $("#log-text").append(timeStamp() + "<br><strong>" + msg+"</strong><br><br>")
+            $("#log-text").scrollTop($("#log-text").prop("scrollHeight"));
         }
     }
     else {
-        $("#log-text").append(Date.now() + "<br><strong>" + msg+"</strong><br><br>")
+        $("#log-text").append(timeStamp() + "<br><strong>" + msg+"</strong><br><br>")
+        $("#log-text").scrollTop($("#log-text").prop("scrollHeight"));
     }
+
 }

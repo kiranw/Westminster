@@ -212,11 +212,21 @@
 			<br><br>
 
 			<button class="btn btn-default" id="exampleRunElection">Run Election</button>
+			<button class="btn btn-default" id="exampleRead">Run Read</button>
+			<button class="btn btn-default" id="exampleWrite">Run Write</button>
 
 			<br><Br>
 			<div class="row">
 				<div class="col-md-6" id="districtExampleSvg"></div>
-				<div class="col-md-3" id="exampleScores"></div>
+				<div class="col-md-3" id="exampleScores">
+					<div id="exampleScores1"></div>
+					<br>
+					<strong>Read Queue</strong><br>
+					<div id="exampleReadQueue">[]</div>
+					<br>
+					<strong>Write Queue</strong><br>
+					<div id="exampleWriteQueue">[]</div>
+				</div>
 				<div class="col-md-3" id="exampleLog"><strong>SYSTEM LOG</strong><BR><br><div id="log-text"></div></div>
 			</div>
 
@@ -228,6 +238,42 @@
 
 	<hr>
 
+
+	<div id="landscape" class="section row">
+		<div class="col-md-12">
+			<div class="section-header">The House of Commons</div>
+			<Br>
+			<br>
+			<div class="sub-heading">A Toy Model</div>
+
+			<br><br>
+
+			<button class="btn btn-default" id="commonsElection">Run Election</button>
+
+			<br><Br>
+			<div class="row">
+				<div class="col-md-1" id="commonsDistrict0"></div>
+				<div class="col-md-1" id="commonsDistrict1"></div>
+				<div class="col-md-1" id="commonsDistrict2"></div>
+				<div class="col-md-1" id="commonsDistrict3"></div>
+				<div class="col-md-1" id="commonsDistrict4"></div>
+				<div class="col-md-1" id="commonsDistrict5"></div>
+				<div class="col-md-1" id="commonsDistrict6"></div>
+				<div class="col-md-1" id="commonsDistrict7"></div>
+				<div class="col-md-1" id="commonsDistrict8"></div>
+				<div class="col-md-1" id="commonsDistrict9"></div>
+				<div class="col-md-1" id="commonsDistrict10"></div>
+				<div class="col-md-1" id="commonsDistrict11"></div>
+				<div class="col-md-1" id="commonsDistrict12"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" id="districtCommonsSvg"></div>
+				<div class="col-md-3" id="commonsScores"></div>
+				<div class="col-md-3" id="commonsLog"><strong>SYSTEM LOG</strong><BR><br><div id="log-text"></div></div>
+			</div>
+
+		</div>
+	</div>
 
 	<hr>
 

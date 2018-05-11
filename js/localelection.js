@@ -328,7 +328,7 @@ function callRead(){
 
 }
 
-function updateWriteQueue(srcNode){
+function updateExampleWriteQueue(srcNode){
     exampleWriteQueue.push([srcNode, currentLeader]);
     $("#exampleWriteQueue").text(JSON.stringify(exampleWriteQueue));
 }
@@ -396,7 +396,7 @@ function callWrite(){
         })
         .on("end", function() {
             appendToLog("ack write request",selectedNode,0,false);
-            updateWriteQueue(selectedNode.id);
+            updateExampleWriteQueue(selectedNode.id);
         })
         .transition()
         .duration(400)

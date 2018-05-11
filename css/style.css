@@ -78,9 +78,12 @@ circle.leader+text{
   border-radius: 50px;
   border: 3px solid white;
   padding: 30px;
+  word-wrap: break-word;
+  display:inline-block;
 }
 
-#log-text, #commons-log-text {
+
+#log-text, #commons-log-text  {
   height: 400px;
   overflow-y: scroll;
 }

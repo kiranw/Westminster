@@ -3,6 +3,7 @@ var c_total_nodes = 12;
 var districtLeaders = {};
 
 var districtWriteQueues = {};
+var c_write_queue = [];
 
 // returns random int between 0 and num
 function getRandomInt(num) {return Math.floor(Math.random() * (num));}
@@ -350,7 +351,7 @@ function parliament(current_district){
         .duration(200)
         .attr("opacity",0)
         .on( "end", function(d,i) {
-            handleParliamentWrite(current_district, d);
+            handleParliamentWrite(current_district, d, write_queue);
         });
 }
 
@@ -368,7 +369,7 @@ function emptyWriteQueue(current_district){
     $("#c"+current_district+"_write").text("[]");
 }
 
-function handleParliamentWrite(current_district, node){
+function handleParliamentWrite(current_district, node, write_q){
     if (node.id == current_district){
     // if (true)
         districtWriteQueues[current_district] = [];
@@ -378,6 +379,8 @@ function handleParliamentWrite(current_district, node){
             d3.selectAll(".bnode4"+current_district).remove();
             parliament(current_district+1);
         }
+        d3.range(write_q.length).map(function(d){ if (getRandomInt(2) == 1){ c_write_queue.push(write_q[d]); }})
+        $("#commonsWriteQueue").text(JSON.stringify(c_write_queue));
     }
 
 }
@@ -437,6 +440,23 @@ function updateCommonsScores(){
 }
 setInterval(updateCommonsScores, 500);
 
+
+
+function updateWriteQueues(){
+    d3.range(10).map(function(d){
+        var prob = getRandomInt(100);
+        if (prob > 60){
+            districtWriteQueues[d].push(getRandomInt(10));
+            updateWriteQueue(d);
+        }
+        prob = getRandomInt(100);
+        if (prob > 60){
+            districtWriteQueues[d].pop(getRandomInt(districtWriteQueues[d].length));
+            updateWriteQueue(d);
+        }
+    });
+}
+setInterval(updateWriteQueues, 900);
 
 
 function voteOfConfidence(){
@@ -516,11 +536,12 @@ function transitionPM(node,i){
 
         appendToLog("transitioning prime minister");
         if (c_currentLeader != newLeader){
+            console.log("changing stuff")
             d3.select("#"+commonsID + c_currentLeader)
                 .classed("leader", false);
             d3.select(".col_" + c_currentLeader)
                 .classed("leading-district",false);
-            currentLeader = newLeader;
+            c_currentLeader = newLeader;
             d3.select("#"+ commonsID + c_currentLeader)
                 .attr("class","node leader");
             d3.select(".col_" + c_currentLeader)
@@ -551,14 +572,16 @@ function transitionDistrictLeader(districtNumber, newLeader){
 
 
 function electNewDistrictLeader(districtNumber, must_elect_new) {
-    appendToCommonsLog("district " + districtNumber+" electing new leader", null, null, false)
-    var prob = getRandomInt(100);
-    if (prob > 35 || must_elect_new){
-        var new_district_leader = (getRandomInt(9) + districtLeaders[districtNumber])%10;
-        transitionDistrictLeader(districtNumber, new_district_leader);
-    }
-    else {
-        appendToCommonsLog("re-elected " + districtNumber+"."+districtLeaders[districtNumber]+ " as district rep", null, null, false)
+    if (districtNumber != c_currentLeader){
+        appendToCommonsLog("district " + districtNumber+" electing new leader", null, null, false)
+        var prob = getRandomInt(100);
+        if (prob > 35 || must_elect_new){
+            var new_district_leader = (getRandomInt(9) + districtLeaders[districtNumber])%10;
+            transitionDistrictLeader(districtNumber, new_district_leader);
+        }
+        else {
+            appendToCommonsLog("re-elected " + districtNumber+"."+districtLeaders[districtNumber]+ " as district rep", null, null, false)
+        }
     }
 }
 

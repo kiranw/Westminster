@@ -138,11 +138,31 @@
 				continuing to deeper levels of the hierarchy before reaching an answer. This can improve efficiency and availability
 				in the larger system, and better utilize the local system.</p>
 
-			<p>Such an assumption requires tools to partition networks. Several algorithms already exist that use different
-				heuristics to separate topologies into smaller clusters which we will consider to be districts: __, __, __.
-				The specific algorithm remains a choice to the implementer of the system, as it should be chosen to best
-				represent the needs of user.</p>
+			<p>Such an assumption requires tools to partition networks. Several
+			algorithms (dubbed "community detection") already exist that use
+			different heuristics to separate topologies into smaller clusters which
+			we will consider to be districts:
 
+			<ul>
+				<li>The classic example, the Kernighan-Lin algorithm, attempts to
+					partition a graph into sections while minimizing the number of
+					connections needed between each section (network modularity). This
+					could perhaps be employed in situations where the network topology is
+					a limiting factor.
+				</li>
+				<li>There are also modern variants such as Newman's "fast" algorithm
+					which uses greedy optimization to minimize the modularity metric and
+					scales better to larger networks.
+				</li>
+				<li>
+					Finally there are variants like Facebook's graph partitioning
+					algorithm, which are graph-parallel, meaning it does not need global
+					information and can be performed solely with node to node
+					communication.
+				</li>
+			</ul>
+
+			<br/>
 
 			<strong>Commodity Machines</strong><br>
 			<p>We assume the system is composed of several commodity machines. This practically makes sense, as large
@@ -370,6 +390,25 @@
 			<div class="section-header">Citations</div>
 			<br/>
 			<ul>
+				<li>
+					Lamport, 1998, "The Part-Time Parliament"
+					ACM Transactions on Computer Systems
+					<a href="https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf">https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf</a>
+				</li>
+				<li>
+					Kernighan et al, 1970, "An efficient heuristic procedure for partitioning graphs"
+					Bell System Technical Journal
+					<a href="https://doi.org/10.1002%2Fj.1538-7305.1970.tb01770.x">https://ieeexplore.ieee.org/document/6771089/</a>
+				</li>
+				<li>
+					Newman, 2004, "Fast algorithm for detecting community structure in networks"
+					American Physical Society
+					<a href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.69.066133">https://journals.aps.org/pre/abstract/10.1103/PhysRevE.69.066133</a>
+				</li>
+				<li>
+					Presta et al, 2014, "Large-scale graph partitioning with Apache Giraph"
+					<a href="https://code.facebook.com/posts/274771932683700/large-scale-graph-partitioning-with-apache-giraph/">https://code.facebook.com/posts/274771932683700/large-scale-graph-partitioning-with-apache-giraph/</a>
+				</li>
 				<li>
 					Imamichi, 1995, "Distributed Information Systems and Human Organization"
 					International Federation of Automatic Control Conference.

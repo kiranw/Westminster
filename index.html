@@ -234,18 +234,52 @@
 
 	<hr>
 
-	<div id="landscape" class="section row">
+	<div id="districtsystem" class="section row">
 		<div class="col-md-12">
 			<div class="section-header">The District Level System</div>
 			<Br>
 			<br>
 			<div class="sub-heading">A Toy Model</div>
-			In this visualization, we present a local district voting system. The system starts with Node 0 as its
+			<p>In this visualization, we present a local district voting system. The system starts with Node 0 as its
 			elected local leader. The first panel (center) represents the scoring metrics updating, establishing a reputation
 			on the machines. The top scoring machine is offered a ballot position in the next election, and the current
 			leader will broadcast to all nodes in the district that an election is occuring. Constituent nodes must
 			respond within a fixed amount of time for their vote to count, and the leader announces the newly elected leader
-			by broadcasting to all nodes. A log of the internal system actions is maintained on the right side.
+				by broadcasting to all nodes. A log of the internal system actions is maintained on the right side.</p>
+
+			<p>The visualization features 3 specific operations. The first, in greater detail is the local election
+			protocol. At a regular interval, the current leader (based on its own internal time) will initiate an election.
+			This happens when the leader node (shown in blue) broadcasts a message to all nodes in the district. This model currently
+			assumes all nodes in a district are completely connected. This is not a requirement, however, as messages
+			can be relayed through other connected nodes. Once nodes receive the election notification, they submit a
+			ballot within a certain period of time. The ballot confirms that the node will vote for the top performing
+			node in the district, based on its reputation metrics. Those metrics are displayed at the top of the middle
+			panel, in a dictionary. Once the leader (the district representative) receives and processes votes, it will
+			broadcast the result, and leaders will transition. The transition includes the transfer of a ledger of
+			pending requests from the current leader to the new leader, if the leader is changing.</p>
+
+			<p>The reputation scores are maintained in a dictionary, displayed in the middle panel. In our implementation,
+			reputation is randomly selected from a distribution, and the scores are assigned the same way for the current
+			leader and for the rest of the nodes in the district. However, we imagine that in a real system, a longer
+			tenure may translate to a better score, and heuristics for this should be specifically selected for the
+			needs of the design of that system.</p>
+
+			<p>The next operation is a read request. One benefit of the federated consensus model is that it can
+			dramatically reduce the size of a network based on the work being done. In this case, reads are handled
+			by their district representatives (House of Commons members for each constituency). Because they are
+			not mutating anything, a district representative can simply collect requests, and operate as an intermediate
+			layer between district nodes and data stores. Districts, by this nature, will also handle their own caches.
+			This can be particularly useful if the network is zoned into districts based on the behaviors they
+			exhibit. This leads to caches that may better serve the needs of a district than a more generic cache. </p>
+
+			<p>The final operation is a write request. A randomly selected node in the district sends a request to the
+				current leader. This request is then handled, and either added to a ledger or discarded if it conflicts
+				with another request already in the system (an example of this is account creation). The requests that
+				do remain are appended to the Write Queue, which is displayed in the center panel. Write queues are
+				managed at the district level, and are only emptied during Parliamentary Sessions. The action on
+				district write queues is better explained in the visualization following this one.
+			</p>
+
 			<br><br>
 
 			<button class="btn btn-default" id="exampleRunElection">Run Election</button>
@@ -269,7 +303,11 @@
 
 			<br><br><br><br><br>
 			<strong class="sub-heading"></strong><br>
-			<p>In our system, </p>
+			<p>This model has some strenghts and weaknesses, and of course is a simplification of the nuances of a real
+			implementation of such a system. However, where there are details that need to be filled in, we have abstracted
+			components that represent the higher level system design. One key take away from this system is that it
+			handles requests differently, depending on what they are, and that district representatives in the House
+			of Commons can serve as load balancers for requests.</p>
 
 		</div>
 	</div>
@@ -296,10 +334,54 @@
 				leader which has been highlighted in blue, and a write queue which has aggregated locally. The elements
 				displayed in each of the 12 containers here are carried over from the previous model of a district's
 				interactions. The leader in blue is elected the same way it was shown in the previous visualization, but
-				the process is not
+				the process is not shown in full detail here, because of scale.
 			</p>
 
-			<p>Below this, </p>
+			<p>
+				Below the districts is the House of Commons, featuring one representative per district. One of these
+				members is also the Prime Minister of the network. Each node in the House is labelled with
+				[districtId].[memberId]. The Prime Minister is shown in blue, and in our representation, the network
+				of the House of Commons is also fully connected, though as long as messages can reach all nodes from
+				all other nodes in the House, such a model could work.
+			</p>
+
+			<p>In the middle panel, we display another dictionary containing reputation scores for each district in the
+				House. These scores are tied to the weighed and combined performance of the district at large, and
+				its selected representative. Below the reputation board is another write queue. This one is maintained
+				at the House level. We discuss this in further detail in the "Parliament Session" below.
+			</p>
+
+			<p>
+				The first operation we provide here is a Parliament Session. As pointed out in the previous section,
+				districts collect write queues locally until a Parliament Session is called by the PM, at a regular
+				interval. The Prime Minister initiates the meeting, by sending a request to each House member, one at a
+				time. The members then return to the Prime Minister with their write requests, from the write queues
+				they maintain for their districts. The Prime Minister sends out ballots in batches from those queues
+				to all members of the House for voting. Once received, House members submit their votes in batches and
+				the Prime Minister broadcasts the result. The PM then reviews the votes, and either can discard a request,
+				process a request directly, or append it to the House ledger to pass on to the Lords for another
+				round of voting to establish consensus when critical. Then, the Prime Minister follows by sending the
+				next district a request for its queue. It performs this operation in round robin style, where each
+				district is given a time slot based on its districtId.
+			</p>
+
+			<p>
+				The next operation is a Vote of Confidence. This can either be initiated by a node in the House upon
+				request, or at a regular interval based on the lease of a prime minister. The Vote proceeds by the
+				leader initiating a broadcast to the house for preserving its seat. The members receive the request,
+				submit a vote (based on a performance heuristic, ie. scoreboard), and the prime minister processes
+				this. Finally, if more than 50% of members approve, the prime minister stays. Otherwise, there is a
+				transition of leadership to the highest reputation member of the House.
+			</p>
+
+			<p>
+				The final operation is the relection of members of the house. Each district staggers its votes, and
+				will carry out the voting procedure outlined in the first visualization. As those districts update their
+				leaders, they are updated in the house voting and will resume carrying out votes that in progress, if
+				a parliament meeting was called or if the leader node failed. The node serving as prime minister is not
+				re-elected during this time. Instead, if the prime minister fails a vote of confidence, the district
+				will re-elect their representative and a new PM is selecting in the interim. 
+			</p>
 
 			<br><br>
 			<strong CLASS="sub-heading">DISTRICTS</strong>

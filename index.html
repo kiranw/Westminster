@@ -708,6 +708,12 @@
 			<div class="section-header">Conclusions and Future Work</div>
 			<br>
 			<p>
+			In this paper, we were concerned with attempting to design a distributed
+			system that resembles a Westminster Parliament, in order to see if we
+			could arrive at conclusions that apply to distributed systems.
+			</p>
+
+			<p>
 			One general realization was that consensus in a distributed system is a
 			different beast than consensus in a government. Consensus in distributed
 			systems is concerned with more essential matters such as ensuring every
@@ -740,12 +746,27 @@
 			</p>
 
 			<p>
+			Trying to reconcile these differences was a constant source of difficulty
+			for us. On one hand we could make decisions to design a system that
+			resembles a Westminster parliament. On the other hand we could make
+			decisions that favor a more parsimonious system where our model of the
+			world is simpler and reasoning about reliability is easier.
+
+			Perhaps this type of system is more useful in contexts where the concerns
+			are more similar (towards decision making rather than agreement) -
+			imagine a system where we're trying to elect the best album of 2016. The
+			decision-making portion could be handled by a system like ours, whereas
+			the reliability concerns could be handled with existing distributed
+			systems techniques at a lower level.
+			</p>
+
+			<p>
 			The lessons from this system turned out to be more about system
 			organization than consensus. In hindsight this makes sense:
 			representative governments were built to handle the difficulties (or at
 			the time of the first parliament, the impossibility) of a direct
 			representative government. As a result, we arrived at a federated system
-			that appointed an elected leader to simplify communication requirements.
+			that appointed an elected leader to simplify communication requirements. This is a favorable 
 			</p>
 			<p>
 				<!--

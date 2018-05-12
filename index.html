@@ -295,12 +295,13 @@
 
 	<hr>
 
-	<div id="primer" class="section row">
+	<div class="row section">
 		<div class="col-md-12">
-			<div class="section-header">System Design</div>
+			<div class="section-header">System Components</div>
 			<br>
-			<strong class="sub-heading">Assumptions about the Underlying System Structure</strong><br><br>
-			<strong>Network Structure</strong><br>
+			<p> We can now describe our Westminster-inspired system. </p>
+
+			<strong class="sub-heading">Network Structure</strong><br><br>
 			<p>We assume a network in which there are geographically distributed machines across a broad scale. If not
 				geographically distributed, this system is modeled after machines that represent diverse services,
 				products or operations such that inclusion of different "districts" or zones is important. In this way,
@@ -309,17 +310,18 @@
 				continuing to deeper levels of the hierarchy before reaching an answer. This can improve efficiency and availability
 				in the larger system, and better utilize the local system.</p>
 
-			<p>Such an assumption requires tools to partition networks. Several
-			algorithms (dubbed "community detection") already exist that use
-			different heuristics to separate topologies into smaller clusters which
-			we will consider to be districts:
+			<p>Such an assumption requires tools to partition the network into
+			districts. Several algorithms (dubbed "community detection") already
+			exist that use different heuristics to separate topologies into smaller
+			clusters:
+			</p>
 
 			<ul>
 				<li>The classic example, the Kernighan-Lin algorithm, attempts to
 					partition a graph into sections while minimizing the number of
 					connections needed between each section (network modularity). This
 					could perhaps be employed in situations where the network topology is
-					a limiting factor.
+					a limiting factor, which is often.
 				</li>
 				<li>There are also modern variants such as Newman's "fast" algorithm
 					which uses greedy optimization to minimize the modularity metric and
@@ -332,30 +334,65 @@
 					communication.
 				</li>
 			</ul>
+			
 
-			<br/>
+			<strong class="sub-heading">Properties of the members</strong><br><br>
+			<p>
+			We don't make any special assumptions regarding the reliability of
+			machines: we assume the system is composed of heterogeneous commodity
+			machines. This makes sense as it is impractical to try to build
+			specialized hardware to eliminate failure at a large scale.
+			</p>
 
-			<strong>Commodity Machines</strong><br>
-			<p>We assume the system is composed of several commodity machines. This practically makes sense, as large
-			scale distributed systems do not depend on reliable machines to construct reliable systems. In this system design,
-			we handle the addition or removal of machines with shorter leases for local leader terms. This allows
-			for local leader elections to be more responsive to changes in local districts. Machines also maintain reputations
-			which are based on some heuristic. Machines that have proven more "trustworthiness" score higher reputation
-			metrics, which are used to appoint machines to higher serving positions and carry more voting power.</p>
+			<p>
+			One way that individual reliability is maintained in real parliamentary
+			systems is a reputation system: members who do bad things eventually are
+			recognized as being bad.
 
-			<strong>Operations Expected</strong><br>
-			<p>This system can support local leader election (Commons), the selection of the next layer (Lords), global leader
-			election (PM), and standard CRUD operations. Some operations can be handled locally, for example, reads or
-			writes for local districts that do not need consensus among the entire system (could be useful for temporary logs).</p>
-		</div>
-	</div>
-	<hr>
+			In this vein, we can include a mechanism where machines maintain
+			reputation values for other machines which are based on desirable
+			heuristics such as network uptime (similar to seniority), speed of
+			response, quality of response, etc. These can be combined into a single
+			"reputation" metric. These perhaps need not be consistent across
+			different machines: different machines may care about different
+			properties.
+			
+			Machines can these use these reputation metrics when deciding who to vote
+			for in higher positions. </p>
 
-	<div class="row section">
-		<div class="col-md-12">
-			<div class="section-header">System Components</div>
-			<br>
-			<strong class="sub-heading">House of Commons</strong><br>
+			<strong class="sub-heading">Relationships Between The Members</strong><br><br>
+			<p>
+			After machines are organized into districts, districts internally elect
+			its representative for the house of commons. Then a group of
+			representatives 
+
+			The purpose of this tiering can be twofold:
+			</p>
+
+			<p> First, a federated system with many subsystems can have certain
+			information that needs to only be shared with a local group of nodes,
+			while others which concern everyone in the system. This might be due to
+			geographical distance, or due to the fact that specific nodes perform
+			specific functions that don't concern other nodes. Consensus over global
+			values require more and longer communication, which makes them more
+			expensive in terms of time and bandwidth usage. So mandating global
+			consensus for every bit of data is inefficient. A tiered system allows
+			the members to avoid this inefficiency whenever possible.
+			</p>
+
+			<p>
+			Second, it separates internal and external communication. This helps
+			because flowing all non-local requests through a single node allows for
+			efficiency improvements such as batching messages.
+
+			This also helps with scaling: in a system where every node communicates
+			with every other node, the cost of communication is n squared. Dividing
+			up and grouping the nodes based on task or geography helps reduce this
+			effect at the global level.
+			</p>
+
+
+			<strong class="sub-heading">House of Commons</strong><br><br>
 			<ul>
 				<li>Members are winners of district elections</li>
 				<li>Relay requests from district to house if valid</li>
@@ -366,7 +403,7 @@
 			</ul>
 
 			<br>
-			<strong class="sub-heading">House of Lords</strong><br>
+			<strong class="sub-heading">House of Lords</strong><br><br>
 			<ul>
 				<li>Members are selected during elections from the top 1/4 highest scoring current house members</li>
 				<li>Longer term leases</li>
@@ -377,28 +414,15 @@
 
 
 			<br>
-			<strong class="sub-heading">Prime Minister</strong><br>
+			<strong class="sub-heading">Prime Minister</strong><br><br>
 			<ul>
 				<li>When consensus is reached, handles the writes and broadcasts to the system about changes</li>
 				<li>Serves for a term as a stable leader (multi-Paxos)</li>
 				<li>Leader transitions are the same as those in Multi-Paxos</li>
 			</ul>
 
-			<br>
-			<strong class="sub-heading"></strong><br>
-			<p>In our system, </p>
-
-			<br>
-			<strong class="sub-heading"></strong><br>
-			<p></p>
 		</div>
 	</div>
-
-	<hr>
-
-
-
-
 
 	<hr>
 

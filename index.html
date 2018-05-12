@@ -311,9 +311,9 @@
 				in the larger system, and better utilize the local system.</p>
 
 			<p>Such an assumption requires tools to partition the network into
-			districts. Several algorithms (dubbed "community detection") already
-			exist that use different heuristics to separate topologies into smaller
-			clusters:
+			districts. If we wanted to do this automatically, a starting point could
+			be algorithms (dubbed "community detection") that use different
+			heuristics to separate topologies into smaller clusters:
 			</p>
 
 			<ul>
@@ -334,14 +334,22 @@
 					communication.
 				</li>
 			</ul>
-			
+
+			<p>
+			A simpler and perhaps more practical scenario is that geographic or
+			function based boundaries are already apparent to the operators and which
+			district each node belongs to and an arbitrary leader for that district
+			is manually bootstrapped into the system as it is started. After that,
+			the system can determine things automatically.
+			</p>
 
 			<strong class="sub-heading">Properties of the members</strong><br><br>
 			<p>
 			We don't make any special assumptions regarding the reliability of
 			machines: we assume the system is composed of heterogeneous commodity
-			machines. This makes sense as it is impractical to try to build
-			specialized hardware to eliminate failure at a large scale.
+			machines. This reflects the situation in the real world, and makes sense
+			from a distributed systems point of view as it is impractical to try to
+			build specialized hardware to eliminate failure at a large scale.
 			</p>
 
 			<p>
@@ -390,7 +398,6 @@
 			up and grouping the nodes based on task or geography helps reduce this
 			effect at the global level.
 			</p>
-
 
 			<strong class="sub-heading">House of Commons</strong><br><br>
 			<ul>

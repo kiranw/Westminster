@@ -665,16 +665,38 @@
 			<div class="section-header">Design Analysis</div>
 			<br>
 			<p>
-				<!--talk about these points:
-				- this is a weaker system for small scale networks where a hierarchy does not make sense
-				- need to select the zoning algorithm for districts based on the behavior observed in the network
-				- if you can naturally balance loads at district levels, this can reduce load on the system as a whole when
-				only district-level consensus is needed for some data
-				- moves critical requests up a hierarchy - model is good for balancing systems where there are diffrent
-				requirements for consistency at the same time (some things are critical, others are local)
-				- several leader elections are required - we stagger ours the same way a company would during a failover
-	-->
+				This system performs well when a network naturally is partitioned into districts, observes behavior
+				that can be curtailed to districts and other operations that need large scale consensus, and has the
+				scale to require such a system in the first place. For small scale networks, where establishing
+				a hierarchy does not make sense, a flatter structure may be more efficient. The overhead costs of holding
+				elections at each level may exceed the cost of communication between nodes in the network in a flatter
+				structure, and the benefits only exist at a critical mass.</p>
 
+			<p>
+				This extends to the notion that district leaders (or Commons representatives) should serve as load
+				balancers of their districts. Having districts commit their read requests to their district representatives
+				can improve the efficiency of the system, especially because the operations are not mutating any data
+				and because a single master in a much larger network may quickly turn into a bottleneck if its queue
+				is consistently full and dropping packets.
+			</p>
+			<p> An extended idea we considered here is that even write requests can be localized, or contained at different
+			levels of the network. Such a system can move critical requests up the hierarchy in the system, but other
+				requests that do not require large scale consensus can funnel out of this bureaucracy much earlier. If
+				consistency requirements can be managed differently for different kinds of activity, this system has
+				a tiered structure to handle it.
+			</p>
+			<p>
+				Selecting a good zoning algorithm for districts is essential, and cannot be generalized in the scope of
+				this paper. Though we have abstracted this process, gaining an understanding of the specific system
+				this is being applied to can improve the implementation. For example, zoning based on the information
+				different parts of the network commonly request or zoning based on operations may balance districts
+				and make caches more universally relevant for activity within districts. The selection of heuristics is
+				evident in each algorithm we considered above, where different design decisions were made based on
+				the networks and optimization priorities.
+			</p>
+			<p> The choice of staggered elections serves to keep districts online for other operations, and for voting
+				such that they are not all in the process of electing new leaders at the same time. This is much the
+				same way a technology company may handle a failover.
 			</p>
 		</div>
 	</div>

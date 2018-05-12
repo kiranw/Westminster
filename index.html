@@ -708,6 +708,42 @@
 			<div class="section-header">Conclusions and Future Work</div>
 			<br>
 			<p>
+			One general realization was that consensus in a distributed system is a
+			different beast than consensus in a government. Consensus in distributed
+			systems is concerned with more essential matters such as ensuring every
+			member of the system is on the same page on some values, handling node
+			failure, handling communication problems, etc.
+
+			For consensus in governments however, these are not concerns. For
+			example, communication generally happens through people shouting in a
+			room together, which has proven to be a fairly reliable (if not
+			effective!) form of human to human communication.
+
+			Here the concerns are more around competing interests. Disagreement is
+			not an anomaly, it is almost an expected property of the system. And
+			consensus is not about the whole system trying to cooperate to all agree
+			on some implicitly correct value (that an all-seeing oracle could know)
+			so much as it is about deciding what should be correct in the first
+			place.
+			</p>
+
+			<p>
+			Similarly with leader election: In real life we care about electing
+			leaders in a fair and equitable way, in a way that represents the
+			interests of their constituencies. In the context of a distributed
+			system, this introduces a lot of complexity and inefficiency, whereas a
+			more arbitrary decision could have been easier to make.
+			</p>
+
+			<p>
+			The lessons from this system turned out to be more about system
+			organization than consensus. In hindsight this makes sense:
+			representative governments were built to handle the difficulties (or at
+			the time of the first parliament, the impossibility) of a direct
+			representative government. As a result, we arrived at a federated system
+			that appointed an elected leader to simplify communication requirements.
+			</p>
+			<p>
 				<!--
 				- districts can be different sizes, we do not model that here
 				- reputation metrics also should be based on real data, in our toy model we don't have that
